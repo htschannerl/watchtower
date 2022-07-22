@@ -1,0 +1,46 @@
+version: '3.7'
+
+networks:
+  web:
+    external: true
+
+services:
+  watchtower_autoupdate:
+    image: containrrr/watchtower:1.4.0
+    container_name: watchtower_autoupdate
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_NOTIFICATIONS=email
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@tschannerl.com
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO=h.tschannerl@gmail.com
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=25
+      - WATCHTOWER_NOTIFICATION_EMAIL_DELAY=2
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=true
+      - TZ=America/Sao_Paulo
+    restart: always
+    command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope autoupdate --notifications-hostname ${HOSTNAME}_autoupdate --debug --include-restarting
+    networks:
+      - web
+# only containers with label "com.centurylinklabs.watchtower.scope=autoupdate" will be updated
+
+  watchtower_notify:
+    image: containrrr/watchtower:1.4.0
+    container_name: watchtower_notify
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_NOTIFICATIONS=email
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@tschannerl.com
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO=h.tschannerl@gmail.com
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=25
+      - WATCHTOWER_NOTIFICATION_EMAIL_DELAY=2
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=true
+      - TZ=America/Sao_Paulo
+    restart: always
+    command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope notify --monitor-only --notifications-hostname ${HOSTNAME}_notify --debug
+    networks:
+      - web
+# only containers with label "com.centurylinklabs.watchtower.scope=notify" will have notification only enabled (no update)
