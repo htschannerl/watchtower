@@ -20,7 +20,7 @@ services:
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=true
       - TZ=America/Sao_Paulo
     restart: always
-    command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope autoupdate --notifications-hostname ${HOSTNAME}_autoupdate --debug --include-restarting
+    command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope autoupdate --notifications-hostname CASA_autoupdate --debug --include-restarting
     networks:
       - web
 # only containers with label "com.centurylinklabs.watchtower.scope=autoupdate" will be updated
@@ -40,7 +40,7 @@ services:
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=true
       - TZ=America/Sao_Paulo
     restart: always
-    command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope notify --monitor-only --notifications-hostname ${HOSTNAME}_notify --debug
+    command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope notify --monitor-only --notifications-hostname CASA_notify --debug
     networks:
       - web
 # only containers with label "com.centurylinklabs.watchtower.scope=notify" will have notification only enabled (no update)
