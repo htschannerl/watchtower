@@ -6,7 +6,7 @@ networks:
 
 services:
   watchtower_autoupdate:
-    image: containrrr/watchtower:1.4.0
+    image: containrrr/watchtower:latest
     container_name: watchtower_autoupdate
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -26,7 +26,7 @@ services:
 # only containers with label "com.centurylinklabs.watchtower.scope=autoupdate" will be updated
 
   watchtower_notify:
-    image: containrrr/watchtower:1.4.0
+    image: containrrr/watchtower:latest
     container_name: watchtower_notify
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
