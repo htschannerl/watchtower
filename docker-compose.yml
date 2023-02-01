@@ -21,6 +21,8 @@ services:
       - TZ=America/Sao_Paulo
     restart: always
     command: --schedule '0 0 4 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope autoupdate --notifications-hostname CASA_autoupdate --debug --include-restarting
+    labels:
+      - "com.centurylinklabs.watchtower.scope=notify"
     networks:
       - web
 # only containers with label "com.centurylinklabs.watchtower.scope=autoupdate" will be updated
