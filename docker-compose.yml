@@ -18,7 +18,7 @@ services:
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=true
       - TZ=America/Toronto
     restart: always
-    command: --schedule '0 0 6 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope autoupdate --notifications-hostname MONTREAL_autoupdate --debug --include-restarting
+    command: --schedule '0 0 6 * * *' --http-api-update --http-api-token=update --http-api-periodic-polls --scope autoupdate --notifications-hostname ${HOST_NAME}_autoupdate --debug --include-restarting
     labels:
       - "com.centurylinklabs.watchtower.scope=autoupdate"
     networks:
